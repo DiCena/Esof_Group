@@ -19,7 +19,7 @@ public class Aluno extends BaseModel {
 
   private String nome;
 
-  @OneToMany(mappedBy = "atendimento",cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "aluno",cascade = CascadeType.PERSIST)
   @JsonManagedReference
   private Set<Atendimento> atendimentos;
 

@@ -20,7 +20,7 @@ public class Faculdade extends BaseModel{
 
   private String morada;
 
-  @OneToMany(mappedBy = "cursos",cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "faculdade",cascade = CascadeType.PERSIST)
   @JsonManagedReference
   private Set<Curso> cursos;
 

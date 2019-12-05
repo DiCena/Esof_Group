@@ -27,7 +27,7 @@ public class Cadeira extends BaseModel{
     @JsonBackReference
     private Curso curso;
 
-    @ManyToMany(mappedBy = "explicadores")//nome na tabela
+    @ManyToMany//nome na tabela
     private Set<Explicador> explicadores;
 
 }

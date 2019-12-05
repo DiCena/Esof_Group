@@ -19,16 +19,16 @@ public class Explicador extends BaseModel {
     /*
     Como vai ser representar na bd um exp com mais que um idioma?
      */
-    private Set<String> idiomas;
+    //private Set<String> idiomas;
 
-    @OneToMany(mappedBy = "atendimento",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "explicador",cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private Set<Atendimento> atendimentos;
 
-    @ManyToMany(mappedBy = "cadeirasEnsinadas")
+    @ManyToMany(mappedBy = "explicadores")
     private Set<Cadeira> cadeiras;
 
-    @OneToMany(mappedBy = "dia_disponivel",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "explicador",cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private Set<Disponibilidade> dia_disponivel;
 
