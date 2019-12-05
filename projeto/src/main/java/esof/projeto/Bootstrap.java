@@ -1,4 +1,4 @@
-package esof.projeto.services;
+package esof.projeto;
 
 import esof.projeto.models.Aluno;
 import esof.projeto.repositories.AlunoRepo;
@@ -23,6 +23,7 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         logger.info("Startup");
