@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-public class Curso {
+public class Curso extends BaseModel{
 
     private String nome;
 

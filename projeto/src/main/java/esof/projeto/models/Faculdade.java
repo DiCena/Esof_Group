@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-public class Faculdade {
+public class Faculdade extends BaseModel{
 
   private String nome;
 

@@ -21,6 +21,10 @@ public class Aluno extends BaseModel {
   @JsonManagedReference
   private Set<Atendimento> atendimentos;
 
+  public Aluno(String nome) {
+    this.nome = nome;
+  }
+
   private boolean marcarAtendimento() {
   return false;
   }

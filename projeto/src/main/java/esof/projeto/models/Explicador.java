@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-public class Explicador {
+public class Explicador extends BaseModel {
 
     /*
     Como vai ser representar na bd um exp com mais que um idioma?

@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-public class Cadeira {
+public class Cadeira extends BaseModel{
 
     private String nome;
 

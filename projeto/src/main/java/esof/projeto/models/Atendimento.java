@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @NoArgsConstructor
-public class Atendimento {
+public class Atendimento extends BaseModel {
 
     private DayOfWeek diaDaSemana;
 
