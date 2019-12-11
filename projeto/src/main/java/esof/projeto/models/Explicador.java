@@ -16,16 +16,14 @@ import java.util.Set;
 @NoArgsConstructor
 public class Explicador extends BaseModel {
 
-    /*
-    Como vai ser representar na bd um exp com mais que um idioma?
-     */
-    //private Set<String> idiomas;
+    @ManyToMany(mappedBy = "explicadores",cascade = CascadeType.PERSIST)
+    private Set<Idiomas> idiomas;
 
     @OneToMany(mappedBy = "explicador",cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private Set<Atendimento> atendimentos;
 
-    @ManyToMany(mappedBy = "explicadores")
+    @ManyToMany(mappedBy = "explicadores",cascade = CascadeType.PERSIST)
     private Set<Cadeira> cadeiras;
 
     @OneToMany(mappedBy = "explicador",cascade = CascadeType.PERSIST)
