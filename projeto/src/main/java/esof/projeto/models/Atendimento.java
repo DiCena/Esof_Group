@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,9 +19,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class Atendimento extends BaseModel {
 
-    private DayOfWeek diaDaSemana;
-
-    private LocalTime horarioAtendimento;
+    private Date inicioAtendimento;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
