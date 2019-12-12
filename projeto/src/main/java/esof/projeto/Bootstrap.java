@@ -33,10 +33,14 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         logger.info("Startup");
         Aluno a1=new Aluno("capela");
 
+        Explicador e1 = new Explicador("explicador1");
+
+        this.explicadorRepo.save(e1);
+
         this.alunoRepo.save(a1);
 
 
-        Explicador e1 = new Explicador();
+
 
     }
 }

@@ -13,4 +13,9 @@ public class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+
+
+    public Long getId() {
+        return this.Id;
+    }
 }

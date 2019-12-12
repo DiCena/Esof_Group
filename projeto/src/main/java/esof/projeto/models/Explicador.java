@@ -20,6 +20,10 @@ public class Explicador extends BaseModel {
 
     private String nome;
 
+    public Explicador(String nome) {
+        this.nome = nome;
+    }
+
     @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
     private Set<Idiomas> idiomas = new HashSet<>();
 
