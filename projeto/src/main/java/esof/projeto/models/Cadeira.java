@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -28,6 +29,12 @@ public class Cadeira extends BaseModel{
     private Curso curso;
 
     @ManyToMany//nome na tabela
-    private Set<Explicador> explicadores;
+    private Set<Explicador> explicadores=new HashSet<>();
 
+    public void addExplicador(Explicador explicador){
+        if(!this.explicadores.contains(explicador)){
+            this.explicadores.add(explicador);
+            explicador.getCadeiras().add(this);
+        }
+    }
 }

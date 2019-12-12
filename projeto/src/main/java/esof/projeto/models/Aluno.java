@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,38 +22,19 @@ public class Aluno extends BaseModel {
 
   @OneToMany(mappedBy = "aluno",cascade = CascadeType.PERSIST)
   @JsonManagedReference
-  private Set<Atendimento> atendimentos;
+  private Set<Atendimento> atendimentos=new HashSet<>();;
 
   public Aluno(String nome) {
     this.nome = nome;
   }
 
-  private boolean marcarAtendimento() {
-  return false;
+  public void addAtendimento(Atendimento a){
+    if(!this.atendimentos.contains(a)) {
+      atendimentos.add(a);
+      a.setAluno(this);
+    }
   }
 
-  private Set<Explicador> getExplicadorDia() {
-  return null;
-  }
 
-  private Set<Explicador> getExplicadorIdioma() {
-  return null;
-  }
-
-  private Set<Explicador> getExplicadorCadeira() {
-  return null;
-  }
-
-  private Set<Explicador> getExplicadorPeriodoTempo() {
-  return null;
-  }
-
-  private Set<Explicador> procurarExplicador() {
-  return null;
-  }
-
-  private Set<Explicador> verCalendarioSemanal() {
-  return null;
-  }
 
 }

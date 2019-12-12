@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -22,8 +23,13 @@ public class Faculdade extends BaseModel{
 
   @OneToMany(mappedBy = "faculdade",cascade = CascadeType.PERSIST)
   @JsonManagedReference
-  private Set<Curso> cursos;
+  private Set<Curso> cursos=new HashSet<>();;
 
-
+  public void addCurso(Curso curso){
+    if(!cursos.contains(curso)){
+      cursos.add(curso);
+      curso.setFaculdade(this);
+    }
+  }
 
 }

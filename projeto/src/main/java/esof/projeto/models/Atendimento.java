@@ -9,8 +9,6 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)

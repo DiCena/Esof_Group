@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -16,11 +17,12 @@ import java.util.Set;
 @NoArgsConstructor
 public class Idiomas extends BaseModel{
 
-    public enum idioma {
+    private enum idioma {
         PORTUGUES , INGLES , FRANCES , ESPANHOL;
     }
 
     @ManyToMany
-    private Set<Explicador> explicadores;
+    private Set<Explicador> explicadores=new HashSet<>();
+
 
 }
