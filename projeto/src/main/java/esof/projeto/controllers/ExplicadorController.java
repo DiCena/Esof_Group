@@ -46,9 +46,6 @@ public class ExplicadorController {
             return ResponseEntity.ok(explicadorOptional.get());
         }
            throw new ExplicadorJaExisteException(explicador.getNome());
-
-
-
     }
 
 
