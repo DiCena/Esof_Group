@@ -1,9 +1,11 @@
 package esof.projeto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,6 +27,9 @@ public class Explicador extends BaseModel {
     }
 
     @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonBackReference
     private Set<Idiomas> idiomas = new HashSet<>();
 
     @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
@@ -32,6 +37,9 @@ public class Explicador extends BaseModel {
     private Set<Atendimento> atendimentos = new HashSet<>();
 
     @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonBackReference
     private Set<Cadeira> cadeiras = new HashSet<>();
 
     @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
