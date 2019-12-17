@@ -22,6 +22,11 @@ public class Cadeira extends BaseModel{
 
     private int ects;
 
+    public Cadeira(String nome , int ects) {
+        this.nome = nome;
+        this.ects = ects;
+    }
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
