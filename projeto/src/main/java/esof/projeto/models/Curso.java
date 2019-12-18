@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @NoArgsConstructor
@@ -33,10 +33,8 @@ public class Curso extends BaseModel{
     private Set<Cadeira> cadeiras=new HashSet<>();
 
     public void addCadeira(Cadeira cadeira){
-        if(!cadeiras.contains(cadeira)){
             cadeiras.add(cadeira);
             cadeira.setCurso(this);
-        }
     }
 
 

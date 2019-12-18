@@ -29,10 +29,8 @@ public class Aluno extends BaseModel {
   }
 
   public void addAtendimento(Atendimento a){
-    if(!this.atendimentos.contains(a)) {
       atendimentos.add(a);
       a.setAluno(this);
-    }
   }
 
 

@@ -77,11 +77,10 @@ class AtendimentoRepoTest {
 
         f1.addCurso(c2);
 
-        Idiomas i1 =new Idiomas();
-        e1.addIdioma(i1);
 
-        Idiomas i2 =new Idiomas();
-        e1.addIdioma(i2);
+        e1.addIdioma(Idiomas.idiomaEspanhol());
+
+        e1.addIdioma(Idiomas.idiomaIngles());
 
         Aluno al2=new Aluno();
         Atendimento a2=new Atendimento();
@@ -120,10 +119,6 @@ class AtendimentoRepoTest {
         assertEquals(1,this.explicadorRepo.count());
         assertEquals(2,this.idiomaRepo.count());
         assertEquals(1,this.faculdadeRepo.count());
-
-
-
-
 
     }
 

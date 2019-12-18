@@ -26,7 +26,7 @@ public class Explicador extends BaseModel {
         this.nome = nome;
     }
 
-    @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonBackReference
@@ -47,31 +47,22 @@ public class Explicador extends BaseModel {
     private Set<Disponibilidade> disponibilidades = new HashSet<>();
 
     public void addIdioma(Idiomas idioma) {
-        if (!idiomas.contains(idioma)) {
-            idiomas.add(idioma);
-            idioma.getExplicadores().add(this);
-        }
+        idiomas.add(idioma);
     }
 
     public void addAtendimento(Atendimento atendimento) {
-        if (!atendimentos.contains(atendimento)) {
             atendimentos.add(atendimento);
             atendimento.setExplicador(this);
-        }
     }
 
     public void addCadeira(Cadeira cadeira) {
-        //if (!cadeiras.contains(cadeira)) {
             cadeiras.add(cadeira);
             cadeira.getExplicadores().add(this);
-        //}
     }
 
     public void addDisponibilidade(Disponibilidade disponibilidade) {
-    if(!disponibilidades.contains(disponibilidade)){
         disponibilidades.add(disponibilidade);
         disponibilidade.setExplicador(this);
-    }
 }
 
 

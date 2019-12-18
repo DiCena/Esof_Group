@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -39,25 +38,8 @@ public class Cadeira extends BaseModel{
     private Set<Explicador> explicadores=new HashSet<>();
 
     public void addExplicador(Explicador explicador){
-        if(!this.explicadores.contains(explicador)){
             this.explicadores.add(explicador);
             explicador.getCadeiras().add(this);
-        }
     }
 
-   /* @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cadeira cadeira = (Cadeira) o;
-        return getEcts() == cadeira.getEcts() &&
-                Objects.equals(getNome(), cadeira.getNome());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getNome(), getEcts());
-    }
-
-    */
 }

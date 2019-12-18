@@ -10,7 +10,6 @@ import javax.persistence.MappedSuperclass;
 
 //Modelo pai de todos os outros, permites generalizar os filtros
 @MappedSuperclass
-@EqualsAndHashCode
 public class BaseModel {
 
     @Id

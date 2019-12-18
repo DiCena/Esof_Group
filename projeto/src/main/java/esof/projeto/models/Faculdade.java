@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @NoArgsConstructor
@@ -26,10 +26,9 @@ public class Faculdade extends BaseModel{
   private Set<Curso> cursos=new HashSet<>();;
 
   public void addCurso(Curso curso){
-    if(!cursos.contains(curso)){
       cursos.add(curso);
       curso.setFaculdade(this);
-    }
+
   }
 
 }
