@@ -1,5 +1,8 @@
 package esof.projeto.models;
 
+import lombok.Getter;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -10,6 +13,8 @@ public class Idiomas extends BaseModel{
     private static final String FRANCES="Frances";
     private static final String ESPANHOL="Espanhol";
 
+    @Getter
+    @Column(unique = true)
     private String name;
 
     private Idiomas(String name){

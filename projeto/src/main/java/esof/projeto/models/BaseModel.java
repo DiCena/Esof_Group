@@ -1,5 +1,6 @@
 package esof.projeto.models;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;
@@ -10,12 +11,12 @@ import javax.persistence.MappedSuperclass;
 
 //Modelo pai de todos os outros, permites generalizar os filtros
 @MappedSuperclass
+@Data
 public class BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-
 
     public Long getId() {
         return this.Id;

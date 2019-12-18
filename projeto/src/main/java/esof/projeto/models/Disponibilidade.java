@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @NoArgsConstructor

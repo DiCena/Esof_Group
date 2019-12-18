@@ -33,7 +33,7 @@ public class Cadeira extends BaseModel{
     @JsonBackReference
     private Curso curso;
 
-    @ManyToMany//nome na tabela
+    @ManyToMany(cascade = CascadeType.PERSIST)//nome na tabela
     @EqualsAndHashCode.Exclude
     private Set<Explicador> explicadores=new HashSet<>();
 
