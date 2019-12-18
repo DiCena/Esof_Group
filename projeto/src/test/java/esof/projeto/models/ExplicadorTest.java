@@ -54,11 +54,10 @@ class ExplicadorTest {
         e1.addCadeira(c2);
         e1.addCadeira(c3);
 
-        logger.debug(c3.toString());
-        logger.debug(c2.toString());
+        logger.debug(c3.toString()+" "+c3.getId());
+        logger.debug(c2.toString()+" "+c2.getId());
 
 
-        assertTrue(c3.hashCode() == c2.hashCode());
 
         assertEquals(2,e1.getCadeiras().size());
 

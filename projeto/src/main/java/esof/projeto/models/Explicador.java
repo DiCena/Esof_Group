@@ -61,10 +61,10 @@ public class Explicador extends BaseModel {
     }
 
     public void addCadeira(Cadeira cadeira) {
-        if (!cadeiras.contains(cadeira)) {
+        //if (!cadeiras.contains(cadeira)) {
             cadeiras.add(cadeira);
             cadeira.getExplicadores().add(this);
-        }
+        //}
     }
 
     public void addDisponibilidade(Disponibilidade disponibilidade) {
