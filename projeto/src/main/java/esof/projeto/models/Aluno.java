@@ -1,5 +1,6 @@
 package esof.projeto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ public class Aluno extends BaseModel {
   private String nome;
 
   @OneToMany(mappedBy = "aluno",cascade = CascadeType.PERSIST)
-  @JsonManagedReference
+  @JsonBackReference
   private Set<Atendimento> atendimentos=new HashSet<>();;
 
   public Aluno(String nome) {

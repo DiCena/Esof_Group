@@ -12,6 +12,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
+import java.util.Date;
 
 @Component
 @Transactional
@@ -29,7 +31,6 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        logger.info("Startup");
         Faculdade f1=new Faculdade();
         f1.setNome("ufp");
 
@@ -46,8 +47,11 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         e1.setNome("Zé");
 
         Disponibilidade di1=new Disponibilidade();
+        di1.setDiaDaSemana(DayOfWeek.MONDAY);
         Disponibilidade di2=new Disponibilidade();
+        di2.setDiaDaSemana(DayOfWeek.THURSDAY);
         Disponibilidade di3=new Disponibilidade();
+        di3.setDiaDaSemana(DayOfWeek.TUESDAY);
 
         Atendimento a1= new Atendimento();
 
@@ -55,6 +59,7 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         al1.setNome("Luís");
 
         al1.addAtendimento(a1);
+
         e1.addAtendimento(a1);
 
         e1.addDisponibilidade(di1);
@@ -69,24 +74,19 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
         f1.addCurso(c2);
 
-
         e1.addIdioma(Idiomas.idiomaEspanhol());
 
-
-        e1.addIdioma(Idiomas.idiomaEspanhol());
+        e1.addIdioma(Idiomas.idiomaIngles());
 
         Aluno al2=new Aluno();
         Atendimento a2=new Atendimento();
+        a2.setInicioAtendimento(new Date());
         Aluno al3=new Aluno();
         Atendimento a3=new Atendimento();
         Aluno al4=new Aluno();
         Atendimento a4=new Atendimento();
         Aluno al5=new Aluno();
         Atendimento a5=new Atendimento();
-        Aluno al6=new Aluno();
-        Atendimento a6=new Atendimento();
-        Aluno al7=new Aluno();
-        Atendimento a7=new Atendimento();
 
         al2.addAtendimento(a2);
         e1.addAtendimento(a2);
@@ -96,16 +96,12 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         e1.addAtendimento(a4);
         al5.addAtendimento(a5);
         e1.addAtendimento(a5);
-        al6.addAtendimento(a6);
-        e1.addAtendimento(a6);
-        al7.addAtendimento(a7);
-        e1.addAtendimento(a7);
-
 
         this.atendimentoRepo.save(a1);
-
-
-
+        this.atendimentoRepo.save(a2);
+        this.atendimentoRepo.save(a3);
+        this.atendimentoRepo.save(a4);
+        this.atendimentoRepo.save(a5);
 
     }
 }

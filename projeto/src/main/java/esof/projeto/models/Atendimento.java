@@ -1,6 +1,7 @@
 package esof.projeto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,13 +23,13 @@ public class Atendimento extends BaseModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonBackReference
+    @JsonManagedReference
     private Aluno aluno;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonBackReference
+    @JsonManagedReference
     private Explicador explicador;
 
 }
