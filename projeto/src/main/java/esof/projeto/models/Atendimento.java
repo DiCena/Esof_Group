@@ -10,7 +10,9 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -18,7 +20,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class Atendimento extends BaseModel {
 
-    private Date inicioAtendimento;
+    private LocalDate diaAtendimento;
+
+    private LocalTime horaAtendimento;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
@@ -29,7 +33,7 @@ public class Atendimento extends BaseModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private Explicador explicador;
 
 }
