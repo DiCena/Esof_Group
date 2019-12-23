@@ -27,7 +27,7 @@ public class Atendimento extends BaseModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private Aluno aluno;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
