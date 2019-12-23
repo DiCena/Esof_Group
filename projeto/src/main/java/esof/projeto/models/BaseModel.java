@@ -1,5 +1,7 @@
 package esof.projeto.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.GeneratedValue;

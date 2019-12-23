@@ -82,9 +82,9 @@ class AtendimentoRepoTest {
 
         f1.addCurso(c2);
 
-        e1.addIdioma(Idiomas.idiomaEspanhol());
+        //e1.addIdioma(Idiomas.idiomaEspanhol());
 
-        e1.addIdioma(Idiomas.idiomaIngles());
+        //e1.addIdioma(Idiomas.idiomaIngles());
 
         Aluno al2=new Aluno();
         Atendimento a2=new Atendimento();

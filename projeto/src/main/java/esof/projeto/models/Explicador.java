@@ -1,6 +1,7 @@
 package esof.projeto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@JsonIgnoreProperties({"id","cadeiras"})
 public class Explicador extends BaseModel {
 
     private String nome;
@@ -30,14 +32,12 @@ public class Explicador extends BaseModel {
         this.nome = nome;
     }
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonBackReference
-    private Set<Idiomas> idiomas = new HashSet<>();
+
 
     @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
-    @JsonManagedReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference(value = "explicador-atendimento")
     private Set<Atendimento> atendimentos = new HashSet<>();
 
     @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
@@ -50,9 +50,6 @@ public class Explicador extends BaseModel {
     @JsonManagedReference
     private Set<Disponibilidade> disponibilidades = new HashSet<>();
 
-    public void addIdioma(Idiomas idioma) {
-        idiomas.add(idioma);
-    }
 
     public void addAtendimento(Atendimento atendimento) {
             atendimentos.add(atendimento);

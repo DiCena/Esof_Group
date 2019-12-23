@@ -1,6 +1,7 @@
 package esof.projeto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"id"})
 public class Disponibilidade extends BaseModel{
 
   private DayOfWeek diaDaSemana;

@@ -1,6 +1,7 @@
 package esof.projeto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @NoArgsConstructor
+@JsonIgnoreProperties({"id"})
 public class Atendimento extends BaseModel {
 
     private LocalDate diaAtendimento;
@@ -27,13 +29,13 @@ public class Atendimento extends BaseModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private Aluno aluno;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonBackReference
+    @JsonBackReference(value = "explicador-atendimento")
     private Explicador explicador;
 
 }
