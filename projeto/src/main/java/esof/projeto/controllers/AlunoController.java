@@ -55,8 +55,6 @@ public class AlunoController {
 
     }
 
-
-
     @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="No such aluno")
     private static class NoAlunoException extends RuntimeException {
 

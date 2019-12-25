@@ -49,8 +49,8 @@ class AlunoControllerTest {
 
         //System.out.println(responseJson);
 
-        Aluno responseClient=this.objectMapper.readValue(responseJson,Aluno.class);
-        assertEquals(aluno,responseClient);
+        Aluno responseAluno=this.objectMapper.readValue(responseJson,Aluno.class);
+        assertEquals(aluno,responseAluno);
 
         this.mockMvc.perform(
                 get("/aluno/2")
