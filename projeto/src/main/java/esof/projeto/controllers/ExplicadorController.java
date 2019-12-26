@@ -35,7 +35,7 @@ public class ExplicadorController {
 
     @RequestMapping(value="/{nome}",method = RequestMethod.GET , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> getExplicadorNome(@PathVariable("nome") String nome) {
-        this.logger.debug("GET -> getExplicadorNome( " + nome + " )");
+        this.logger.info("GET -> getExplicadorNome( " + nome + " )");
         Optional<Explicador> explicadorOptional = this.explicadorService.procurarExplicador(nome);
         if(explicadorOptional.isEmpty()) throw new ExplicadorException();
         else return ResponseEntity.ok(explicadorOptional.get());

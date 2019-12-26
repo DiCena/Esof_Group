@@ -3,10 +3,7 @@ package esof.projeto.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,6 +13,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,10 +36,11 @@ public class Explicador extends BaseModel {
     @JsonManagedReference(value = "explicador-idioma")
     private Set<Idiomas> idiomas = new HashSet<>();
 
-    @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
-    @ToString.Exclude
+    @OneToMany(mappedBy = "explicador", cascade = {CascadeType.ALL},orphanRemoval = true)
+    //@ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonManagedReference(value = "explicador-atendimento")
+    //@Getter(AccessLevel.NONE)
     private Set<Atendimento> atendimentos = new HashSet<>();
 
     @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
@@ -54,11 +53,36 @@ public class Explicador extends BaseModel {
     @JsonManagedReference
     private Set<Disponibilidade> disponibilidades = new HashSet<>();
 
+    //public Set<Atendimento> getAtendimentos() {
+    //    return Collections.unmodifiableSet(atendimentos);
+   // }
 
     public void addAtendimento(Atendimento atendimento) {
             atendimentos.add(atendimento);
             atendimento.setExplicador(this);
     }
+
+    public void removeAtendimento(Atendimento atendimento){
+        this.atendimentos.remove(atendimento);
+        atendimento.setExplicador(null);
+        if(atendimento.getAluno()!=null) {
+            atendimento.getAluno().getAtendimentos().remove(atendimento);
+        }
+        atendimento.setAluno(null);
+    }
+
+    public void removeAllAtendimentos() {
+        for(Atendimento atendimento : this.atendimentos) {
+            removeAtendimento(atendimento);
+        }
+    }
+
+    public void addAtendimentos(Set<Atendimento> atendimentos) {
+        for(Atendimento atendimento : atendimentos) {
+            addAtendimento(atendimento);
+        }
+    }
+
 
     public void mudarAtendimentos(Set<Atendimento> atendimentos) {
         this.atendimentos.clear();
@@ -72,13 +96,27 @@ public class Explicador extends BaseModel {
             cadeira.getExplicadores().add(this);
     }
 
+    public void removeCadeira(Cadeira cadeira) {
+        this.cadeiras.remove(cadeira);
+        cadeira.getExplicadores().remove(this);
+    }
+
     public void addDisponibilidade(Disponibilidade disponibilidade) {
         disponibilidades.add(disponibilidade);
         disponibilidade.setExplicador(this);
-}
+    }
+
+    public void removeDisponibilidade(Disponibilidade disponibilidade) {
+        this.disponibilidades.remove(disponibilidade);
+        disponibilidade.setExplicador(null);
+    }
 
     public void addIdioma(Idiomas idioma) {
         idiomas.add(idioma);
+    }
+
+    public void removeIdioma(Idiomas idioma) {
+        this.idiomas.remove(idioma);
     }
 
     /**
@@ -114,5 +152,47 @@ public class Explicador extends BaseModel {
     }
 
 
+
+
+    public void removeAllCadeiras() {
+        for(Cadeira cadeira : this.cadeiras) {
+            this.removeCadeira(cadeira);
+        }
+    }
+
+    @ToString.Include
+    public Long id(){
+        return this.getId();
+    }
+
+    public void addCadeiras(Set<Cadeira> cadeiras) {
+        for(Cadeira cadeira: cadeiras) {
+            addCadeira(cadeira);
+        }
+    }
+
+    public void removeAllDisponibilidades() {
+        for(Disponibilidade disponibilidade: this.disponibilidades) {
+            removeDisponibilidade(disponibilidade);
+        }
+    }
+
+    public void addDisponibilidades(Set<Disponibilidade> disponibilidades) {
+        for(Disponibilidade disponibilidade : disponibilidades) {
+            this.addDisponibilidade(disponibilidade);
+        }
+    }
+
+    public void removeAllIdiomas() {
+        for(Idiomas idiomas : this.idiomas) {
+            this.removeIdioma(idiomas);
+        }
+    }
+
+    public void addIdiomas(Set<Idiomas> idiomas) {
+        for(Idiomas idiomas1 : idiomas) {
+            addIdioma(idiomas1);
+        }
+    }
 
 }

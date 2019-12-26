@@ -43,7 +43,6 @@ public class ExplicadorService {
             return explicadores;
     }
 
-
     /**
      * Se explicador nao existir na base de dados , cria-o.
      * @param explicador explicador a adicionar na base de dados.
@@ -67,21 +66,23 @@ public class ExplicadorService {
 
 
     /**
-     * Apaga explicador pelo nome e cria um novo com o mesmo nome e campos editados.
+     * Apaga os atributos antigos e substitui pelos atributos passados
+     * no objeto explicador.
      * @param explicador explicador a editar
      * @return Explicador criado
      */
     public Optional<Explicador> editarExplicador(Explicador explicador) {
         Optional<Explicador> explicadorOptional =  this.procurarExplicador(explicador.getNome());
         if(explicadorOptional.isEmpty()) return Optional.empty();
-        Explicador explicador1 = this.explicadorRepo.findByNome(explicador.getNome()).get();
-        for(Atendimento a : explicador1.getAtendimentos()){
-            // apaga todos os atendimentos
-            this.atendimentoRepo.deleteById(a.getId());
-        }
-        for(Atendimento a : explicador.getAtendimentos()){
-            this.atendimentoRepo.save(a);
-        }
-        return explicadorOptional;
+        Explicador explicador1 = explicadorOptional.get();
+        explicador1.removeAllAtendimentos();                                    // Remove atributos
+        explicador1.addAtendimentos(explicador.getAtendimentos());              // Adiciona novos atributos
+        explicador1.removeAllCadeiras();
+        explicador1.addCadeiras(explicador.getCadeiras());
+        explicador1.removeAllDisponibilidades();
+        explicador1.addDisponibilidades(explicador.getDisponibilidades());
+        explicador1.removeAllIdiomas();
+        explicador1.addIdiomas(explicador.getIdiomas());
+        return Optional.of(this.explicadorRepo.save(explicador1));
     }
 }
