@@ -42,7 +42,6 @@ public class ExplicadorController {
     }
 
 
-
     @RequestMapping(method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> addExplicador(@RequestBody Explicador explicador) {
         this.logger.info("POST -> addExplicador( " + explicador.getNome()+" )");
@@ -57,11 +56,7 @@ public class ExplicadorController {
         Optional<Explicador> explicadorOptional = this.explicadorService.editarExplicador(explicador);
         if(explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
         throw new ExplicadorException();
-
     }
-
-
-
 
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason = "Pedido sem sucesso.")
     private static class ExplicadorException extends RuntimeException {
@@ -69,12 +64,4 @@ public class ExplicadorController {
             super("O pedido terminou sem sucesso.");
         }
     }
-
-
-    
-
-
-
-
-
 }

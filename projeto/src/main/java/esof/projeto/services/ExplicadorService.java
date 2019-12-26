@@ -1,7 +1,9 @@
 package esof.projeto.services;
 
 
+import esof.projeto.models.Atendimento;
 import esof.projeto.models.Explicador;
+import esof.projeto.repositories.AtendimentoRepo;
 import esof.projeto.repositories.ExplicadorRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +21,13 @@ public class ExplicadorService {
 
     private ExplicadorRepo explicadorRepo;
 
+    private AtendimentoRepo atendimentoRepo;
+
     @Autowired
-    public ExplicadorService(ExplicadorRepo explicadorRepo) {
+    public ExplicadorService(ExplicadorRepo explicadorRepo, AtendimentoRepo atendimentoRepo) {
+
         this.explicadorRepo = explicadorRepo;
+        this.atendimentoRepo = atendimentoRepo;
     }
 
 
@@ -68,11 +74,14 @@ public class ExplicadorService {
     public Optional<Explicador> editarExplicador(Explicador explicador) {
         Optional<Explicador> explicadorOptional =  this.procurarExplicador(explicador.getNome());
         if(explicadorOptional.isEmpty()) return Optional.empty();
-        Explicador e1 = explicadorOptional.get();
-        this.explicadorRepo.deleteById(e1.getId());
-        e1.setAtendimentos(explicador.getAtendimentos());
-        e1.setDisponibilidades(explicador.getDisponibilidades());
-        e1.setCadeiras(explicador.getCadeiras());
-        return Optional.of(this.explicadorRepo.save(e1));
+        Explicador explicador1 = this.explicadorRepo.findByNome(explicador.getNome()).get();
+        for(Atendimento a : explicador1.getAtendimentos()){
+            // apaga todos os atendimentos
+            this.atendimentoRepo.deleteById(a.getId());
+        }
+        for(Atendimento a : explicador.getAtendimentos()){
+            this.atendimentoRepo.save(a);
+        }
+        return explicadorOptional;
     }
 }

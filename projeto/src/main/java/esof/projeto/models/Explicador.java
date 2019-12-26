@@ -32,7 +32,11 @@ public class Explicador extends BaseModel {
         this.nome = nome;
     }
 
-
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference(value = "explicador-idioma")
+    private Set<Idiomas> idiomas = new HashSet<>();
 
     @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
     @ToString.Exclude
@@ -56,6 +60,13 @@ public class Explicador extends BaseModel {
             atendimento.setExplicador(this);
     }
 
+    public void mudarAtendimentos(Set<Atendimento> atendimentos) {
+        this.atendimentos.clear();
+        for(Atendimento a : atendimentos) {
+            addAtendimento(a);
+        }
+    }
+
     public void addCadeira(Cadeira cadeira) {
             cadeiras.add(cadeira);
             cadeira.getExplicadores().add(this);
@@ -65,6 +76,10 @@ public class Explicador extends BaseModel {
         disponibilidades.add(disponibilidade);
         disponibilidade.setExplicador(this);
 }
+
+    public void addIdioma(Idiomas idioma) {
+        idiomas.add(idioma);
+    }
 
     /**
      * Função que verifica se é possivel marcar o atendimento no horário desejado
