@@ -23,6 +23,9 @@ public class ExplicadorService {
 
     private AtendimentoRepo atendimentoRepo;
 
+
+    private HashSet<Explicador> MRU = new HashSet<Explicador>(); // Cache
+
     @Autowired
     public ExplicadorService(ExplicadorRepo explicadorRepo, AtendimentoRepo atendimentoRepo) {
 
@@ -57,12 +60,36 @@ public class ExplicadorService {
 
     /**
      * Procura um explicador no repositorio com determinado nome.
+     * Primeiro utiliza a cache ( lista em memória)
+     * Depois de procurar atualiza os valores da cache.
      * @param nome nome do explicador a procurar.
      * @return Explicador
      */
     public Optional<Explicador> procurarExplicador(String nome) {
-        return this.explicadorRepo.findByNome(nome);
+        Optional<Explicador> explicador = procurarExplicadorCache(nome);    // Procura na cache.
+        if(explicador.isPresent()) return explicador;
+        return this.explicadorRepo.findByNome(nome);                        // Se não encontrar na cache , recorre à BD
     }
+
+
+    /**
+     * Procura explicador por nome na lista em memória.
+     * @param nome nome do explicador a procurar na cache.
+     * @return Explicador
+     */
+    private Optional<Explicador> procurarExplicadorCache(String nome) {
+        for(Explicador explicador : this.MRU) {
+            if(explicador.getNome().equals(explicador.getNome()))
+                return Optional.of(explicador);
+        }
+        return Optional.empty();
+    }
+
+
+    private void addConsultaMRU(Explicador explicador) {
+
+    }
+
 
 
     /**
