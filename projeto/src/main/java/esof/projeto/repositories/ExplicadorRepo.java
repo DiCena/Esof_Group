@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ExplicadorRepo extends CrudRepository<Explicador,Long> {
 
     Optional<Explicador> findByNome(String nome);
-    Optional<Explicador> deleteByNome(String nome);
+    void deleteByNome(String nome);
 }

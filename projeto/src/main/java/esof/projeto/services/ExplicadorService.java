@@ -1,7 +1,9 @@
 package esof.projeto.services;
 
 
+import esof.projeto.models.Atendimento;
 import esof.projeto.models.Explicador;
+import esof.projeto.repositories.AtendimentoRepo;
 import esof.projeto.repositories.ExplicadorRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +21,13 @@ public class ExplicadorService {
 
     private ExplicadorRepo explicadorRepo;
 
+    private AtendimentoRepo atendimentoRepo;
+
     @Autowired
-    public ExplicadorService(ExplicadorRepo explicadorRepo) {
+    public ExplicadorService(ExplicadorRepo explicadorRepo, AtendimentoRepo atendimentoRepo) {
+
         this.explicadorRepo = explicadorRepo;
+        this.atendimentoRepo = atendimentoRepo;
     }
 
 
@@ -36,7 +42,6 @@ public class ExplicadorService {
             }
             return explicadores;
     }
-
 
     /**
      * Se explicador nao existir na base de dados , cria-o.
@@ -61,18 +66,23 @@ public class ExplicadorService {
 
 
     /**
-     * Apaga explicador pelo nome e cria um novo com o mesmo nome e campos editados.
+     * Apaga os atributos antigos e substitui pelos atributos passados
+     * no objeto explicador.
      * @param explicador explicador a editar
      * @return Explicador criado
      */
     public Optional<Explicador> editarExplicador(Explicador explicador) {
         Optional<Explicador> explicadorOptional =  this.procurarExplicador(explicador.getNome());
         if(explicadorOptional.isEmpty()) return Optional.empty();
-        Explicador e1 = explicadorOptional.get();
-        this.explicadorRepo.deleteById(e1.getId());
-        e1.setAtendimentos(explicador.getAtendimentos());
-        e1.setDisponibilidades(explicador.getDisponibilidades());
-        e1.setCadeiras(explicador.getCadeiras());
-        return Optional.of(this.explicadorRepo.save(e1));
+        Explicador explicador1 = explicadorOptional.get();
+        explicador1.removeAllAtendimentos();                                    // Remove atributos
+        explicador1.addAtendimentos(explicador.getAtendimentos());              // Adiciona novos atributos
+        explicador1.removeAllCadeiras();
+        explicador1.addCadeiras(explicador.getCadeiras());
+        explicador1.removeAllDisponibilidades();
+        explicador1.addDisponibilidades(explicador.getDisponibilidades());
+        explicador1.removeAllIdiomas();
+        explicador1.addIdiomas(explicador.getIdiomas());
+        return Optional.of(this.explicadorRepo.save(explicador1));
     }
 }
