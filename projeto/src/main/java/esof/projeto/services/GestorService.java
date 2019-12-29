@@ -50,11 +50,11 @@ public class GestorService {
         Optional<Curso> optionalCurso = this.cursoRepo.findByNome(curso);
         if (optionalCurso.isPresent()) {
             if (optionalCurso.get().getCadeiras().contains(cadeira))
-                return Optional.empty();
+                return Optional.empty(); //já existe a esta cadeira no curso
             optionalCurso.get().addCadeira(cadeira);
             this.cadeiraRepo.save(cadeira);
             return Optional.of(cadeira);
         }
-        return Optional.empty();
+        return Optional.empty(); //o curso não existe
     }
 }
