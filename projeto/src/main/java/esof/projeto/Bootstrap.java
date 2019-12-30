@@ -46,6 +46,8 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         LocalTime lt1 = LocalTime.of(15, 30);
         Disponibilidade d1 = new Disponibilidade();
         d1.setHorarioInicio(LocalTime.now());
+        d1.setHorarioFim(LocalTime.MIDNIGHT);
+
         e1.addDisponibilidade(d1);
 
         e1.addIdioma(Idiomas.idiomaIngles());

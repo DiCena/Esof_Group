@@ -80,7 +80,7 @@ public class ExplicadorController {
 
     /**
      * Resposta para todos os pedidos que não encontrem um dado explicador
-     * ou definam um erro de procura.
+     * ou definam um erro de procura no repositorio explicador.
      */
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason = "Pedido sem sucesso.")
     private static class ExplicadorException extends RuntimeException {
