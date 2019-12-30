@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,7 +27,7 @@ public class Explicador extends BaseModel {
         this.nome = nome;
     }
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade =  {CascadeType.ALL},orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonManagedReference(value = "explicador-idioma")
@@ -43,13 +40,13 @@ public class Explicador extends BaseModel {
     //@Getter(AccessLevel.NONE)
     private Set<Atendimento> atendimentos = new HashSet<>();
 
-    @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "explicadores", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonBackReference
     private Set<Cadeira> cadeiras = new HashSet<>();
 
-    @OneToMany(mappedBy = "explicador", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "explicador",  cascade = {CascadeType.ALL},orphanRemoval = true)
     @JsonManagedReference
     private Set<Disponibilidade> disponibilidades = new HashSet<>();
 
