@@ -41,11 +41,14 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         Explicador e2 = new Explicador();
         e2.setNome("exp2");
 
+
         LocalDate ld1 = LocalDate.of(2020, 1, 10);
         LocalTime lt1 = LocalTime.of(15, 30);
         Disponibilidade d1 = new Disponibilidade();
         d1.setHorarioInicio(LocalTime.now());
         e1.addDisponibilidade(d1);
+
+        e1.addIdioma(Idiomas.idiomaIngles());
 
 
         Aluno al1 = new Aluno();

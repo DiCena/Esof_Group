@@ -27,22 +27,35 @@ public class ExplicadorController {
     }
 
 
+    /**
+     * Devolve todos os explicadores na base de dados.
+     * @return Set<Explicador>
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(){
         this.logger.info("GET -> getTodosExplicadores()");
         return ResponseEntity.ok(this.explicadorService.findAll());
     }
 
+
+    /**
+     * Procura um explicador pelo nome passado.
+     * @param nome Nome a procurar pelo explicador
+     * @return Explicador
+     */
     @RequestMapping(value="/{nome}",method = RequestMethod.GET , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> getExplicadorNome(@PathVariable("nome") String nome) {
-        this.logger.debug("GET -> getExplicadorNome( " + nome + " )");
+        this.logger.info("GET -> getExplicadorNome( " + nome + " )");
         Optional<Explicador> explicadorOptional = this.explicadorService.procurarExplicador(nome);
         if(explicadorOptional.isEmpty()) throw new ExplicadorException();
         else return ResponseEntity.ok(explicadorOptional.get());
     }
 
-
-
+    /**
+     * Adiciona um explicador na base dados caso não exista o nome ainda.
+     * @param explicador Explicador a adicionar
+     * @return Explicador
+     */
     @RequestMapping(method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> addExplicador(@RequestBody Explicador explicador) {
         this.logger.info("POST -> addExplicador( " + explicador.getNome()+" )");
@@ -51,30 +64,28 @@ public class ExplicadorController {
         else throw new ExplicadorException();
     }
 
+
+    /**
+     * Muda atributos de um explicador caso o mesmo exista.
+     * @param explicador Explicador com os atributos novos
+     * @return Explicador (editado)
+     */
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> mudarExplicador(@RequestBody Explicador explicador) {
         this.logger.info("PUT -> mudarExplicador( "+ explicador.getNome() +" )");
         Optional<Explicador> explicadorOptional = this.explicadorService.editarExplicador(explicador);
         if(explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
         throw new ExplicadorException();
-
     }
 
-
-
-
+    /**
+     * Resposta para todos os pedidos que não encontrem um dado explicador
+     * ou definam um erro de procura.
+     */
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason = "Pedido sem sucesso.")
     private static class ExplicadorException extends RuntimeException {
         public ExplicadorException() {
             super("O pedido terminou sem sucesso.");
         }
     }
-
-
-    
-
-
-
-
-
 }
