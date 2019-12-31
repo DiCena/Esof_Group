@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@JsonIgnoreProperties({"id","cadeiras"})
+@JsonIgnoreProperties({"id"})
 public class Explicador extends BaseModel {
 
     private String nome;

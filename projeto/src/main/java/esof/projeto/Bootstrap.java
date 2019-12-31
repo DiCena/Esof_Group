@@ -41,6 +41,16 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         Explicador e2 = new Explicador();
         e2.setNome("exp2");
 
+        Curso curso = new Curso();
+        curso.setNome("informatica");
+
+        Cadeira cadeira = new Cadeira();
+        cadeira.setNome("base dados");
+
+        curso.addCadeira(cadeira);
+
+        e1.addCadeira(cadeira);
+
 
         LocalDate ld1 = LocalDate.of(2020, 1, 10);
         LocalTime lt1 = LocalTime.of(15, 30);

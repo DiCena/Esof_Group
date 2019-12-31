@@ -4,12 +4,15 @@ package esof.projeto.services;
 import esof.projeto.caches.ExplicadorCache;
 import esof.projeto.models.Explicador;
 import esof.projeto.repositories.ExplicadorRepo;
+import esof.projeto.services.filters.explicadores.ExplicadorFilterService;
+import esof.projeto.services.filters.explicadores.FilterObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,6 +24,8 @@ public class ExplicadorService {
     private ExplicadorRepo explicadorRepo;
 
     private ExplicadorCache cache = ExplicadorCache.getInstance();
+
+    private ExplicadorFilterService explicadorFilterService = new ExplicadorFilterService();
 
     @Autowired
     public ExplicadorService(ExplicadorRepo explicadorRepo) {
@@ -34,7 +39,6 @@ public class ExplicadorService {
      * @return Explicadores
      */
     public Set<Explicador> findAll() {
-        this.logger.info("A devolver todos os explicadores");
         Set<Explicador> explicadores = new HashSet<>();
             for(Explicador exp : this.explicadorRepo.findAll()) {
                 explicadores.add(exp);
@@ -99,5 +103,22 @@ public class ExplicadorService {
         cache.addExplicador(explicadorSalvado);
         System.out.println(explicadorSalvado.getDisponibilidades().toString());
         return Optional.of(explicadorSalvado);
+    }
+
+    /**
+     * Devolve explicadores filtrados por parametros
+     * @param searchParams parametros a filtrar
+     * @return explicadores filtrados
+     */
+    public Set<Explicador> filterOrders(Map<String, String> searchParams) {
+        System.out.println(searchParams);
+        this.logger.info("A filtrar explicadores");
+        if(searchParams.isEmpty()) {
+            this.logger.info("A devolver todos os explicadores");
+            return this.findAll();   // Nao ha parametros de procura , devolve tudo
+        }
+        FilterObject filterObject = new FilterObject(searchParams);
+        System.out.println(explicadorFilterService.filter(this.findAll(),filterObject).size());
+        return explicadorFilterService.filter(this.findAll(),filterObject);
     }
 }

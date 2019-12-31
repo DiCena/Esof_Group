@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -28,13 +29,14 @@ public class ExplicadorController {
 
 
     /**
-     * Devolve todos os explicadores na base de dados.
+     * Devolve todos os explicadores na base de dados com
+     * os devidos parametros. Se nao tiver searchParams, devolve tudo
      * @return Set<Explicador>
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(){
+    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(@RequestParam Map<String,String> searchParams){
         this.logger.info("GET -> getTodosExplicadores()");
-        return ResponseEntity.ok(this.explicadorService.findAll());
+        return ResponseEntity.ok(this.explicadorService.filterOrders(searchParams));
     }
 
 
