@@ -39,4 +39,10 @@ public class Atendimento extends BaseModel {
     @JsonBackReference(value = "explicador-atendimento")
     private Explicador explicador;
 
+    public Atendimento(LocalDate diaAtendimento, LocalTime horaAtendimento, Aluno aluno, Explicador explicador) {
+        this.diaAtendimento = diaAtendimento;
+        this.horaAtendimento = horaAtendimento;
+        this.aluno = aluno;
+        this.explicador = explicador;
+    }
 }
