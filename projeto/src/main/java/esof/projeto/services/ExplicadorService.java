@@ -91,13 +91,29 @@ public class ExplicadorService {
         if(explicadorOptional.isEmpty()) return Optional.empty();
         this.logger.info("Explicador encontrado , a edita-lo ...");
         Explicador explicador1 = explicadorOptional.get();
-        if(explicador1.equals(explicador)) return Optional.of(explicador1); //se sao iguais , nao faz nada
-        explicador1.removeAllCadeiras();
-        explicador1.addCadeiras(explicador.getCadeiras());
-        explicador1.removeAllDisponibilidades();
-        explicador1.addDisponibilidades(explicador.getDisponibilidades());
-        explicador1.removeAllIdiomas();
-        explicador1.addIdiomas(explicador.getIdiomas());
+        if(!explicador1.getDisponibilidades().equals(explicador.getDisponibilidades())){
+            this.logger.info("A alterar as disponibilidades...");
+            explicador1.removeAllDisponibilidades();
+            explicador1.addDisponibilidades(explicador.getDisponibilidades());
+        }
+        if(!explicador1.getCadeiras().equals(explicador.getCadeiras())){
+            this.logger.info("A alterar as cadeiras...");
+            explicador1.removeAllCadeiras();
+            explicador1.addCadeiras(explicador.getCadeiras());
+        }
+
+        if(!explicador1.getAtendimentos().equals(explicador.getAtendimentos())){
+            this.logger.info("A alterar os atendimentos...");
+            explicador1.removeAllAtendimentos();
+            explicador1.addAtendimentos(explicador.getAtendimentos());
+        }
+
+        if(!explicador1.getIdiomas().equals(explicador.getIdiomas())){
+            this.logger.info("A alterar os idiomas...");
+            explicador1.removeAllIdiomas();
+            explicador1.addIdiomas(explicador.getIdiomas());
+        }
+
         this.logger.info("A devolver explicador editado");
         Explicador explicadorSalvado = this.explicadorRepo.save(explicador1);
         cache.addExplicador(explicadorSalvado);
@@ -110,7 +126,7 @@ public class ExplicadorService {
      * @param searchParams parametros a filtrar
      * @return explicadores filtrados
      */
-    public Set<Explicador> filterOrders(Map<String, String> searchParams) {
+    public Set<Explicador> filterExplicador(Map<String, String> searchParams) {
         System.out.println(searchParams);
         this.logger.info("A filtrar explicadores");
         if(searchParams.isEmpty()) {

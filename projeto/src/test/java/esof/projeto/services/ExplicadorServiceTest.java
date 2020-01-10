@@ -38,24 +38,58 @@ class ExplicadorServiceTest {
     private ExplicadorService explicadorService;
 
 
-
-
-    @Test
-    void findAll() {
-    }
-
     @Test
     void criarExplicador() {
+        //dado
+        Explicador explicador = new Explicador();
+        explicador.setNome("joao");
+        when(this.explicadorRepo.save(explicador)).thenReturn(explicador);
+
+        // --
+        // adicionar explicador
+        Optional<Explicador> explicadorOptional = this.explicadorService.criarExplicador(explicador);
+
+        assertTrue(explicadorOptional.isPresent());
+        assertEquals(explicador,explicadorOptional.get());
+
     }
 
     @Test
     void procurarExplicador() {
+        // dado
+        Explicador explicador = new Explicador();
+        explicador.setNome("josefa");
+        Explicador explicador1 = new Explicador();
+        explicador1.setNome("filipe");
+        Explicador explicador2 = new Explicador();
+        explicador2.setNome("luisinho");
+
+        when(this.explicadorRepo.findByNome("josefa")).thenReturn(Optional.of(explicador));
+        when(this.explicadorRepo.findByNome("filipe")).thenReturn(Optional.of(explicador));
+        when(this.explicadorRepo.findByNome("luisinho")).thenReturn(Optional.of(explicador));
+
+
+        // --
+        // procurar explicadores que existem no repositorio
+        Optional<Explicador> explicadorOptional = this.explicadorService.procurarExplicador("josefa");
+        assertTrue(explicadorOptional.isPresent());
+
+        Optional<Explicador> explicadorOptional1 = this.explicadorService.procurarExplicador("filipe");
+        assertTrue(explicadorOptional1.isPresent());
+
+        Optional<Explicador> explicadorOptional2 = this.explicadorService.procurarExplicador("luisinho");
+        assertTrue(explicadorOptional2.isPresent());
+
+        // --
+        // procurar explicadores que nao existem
+
+        Optional<Explicador> explicadorOptional3 = this.explicadorService.procurarExplicador("naoexisto");
+        assertFalse(explicadorOptional3.isPresent());
     }
 
     @Test
     void editarExplicador() {
-
-
+        //dado
         Explicador explicador=new Explicador();
         explicador.setNome("expl1");
         Atendimento atendimento=new Atendimento();
@@ -67,54 +101,31 @@ class ExplicadorServiceTest {
         explicador.addAtendimento(atendimento);
         explicador.addAtendimento(atendimento1);
 
-        this.explicadorRepo.save(explicador);
+        when(this.explicadorRepo.save(explicador)).thenReturn(explicador);
+        Explicador salvado = this.explicadorService.criarExplicador(explicador).get();
+        assertEquals("expl1",salvado.getNome());
+        assertEquals(2,salvado.getAtendimentos().size());       // tem 2 atendimentos
+        assertEquals(0,salvado.getCadeiras().size());           // tem 0 cadeiras
 
+        // --
+        // explicador fica com 1 atendimento apenas
 
-        assertEquals(1,this.explicadorRepo.count());
-        assertEquals(2,this.atendimentoRepo.count());
-
-        Optional<Explicador> optionalExplicador=this.explicadorRepo.findByNome("expl1");
-
-        assertTrue(optionalExplicador.isPresent());
-
-        Explicador explicadorFromDB=optionalExplicador.get();
-
-        explicadorFromDB.removeAtendimento(atendimento);
-        assertEquals(1,explicadorFromDB.getAtendimentos().size());
-
+        Explicador explicador1 = new Explicador();
+        explicador1.setNome("expl1");
         Atendimento atendimento2=new Atendimento();
-        atendimento2.setDiaAtendimento(LocalDate.now().plusDays(1l));
-        atendimento2.setHoraAtendimento(LocalTime.of(10,0));
+        atendimento2.setDiaAtendimento(LocalDate.now());
+        atendimento2.setHoraAtendimento(LocalTime.of(11,0));
+        explicador1.addAtendimento(atendimento2);
 
-        explicadorFromDB.addAtendimento(atendimento2);
-        assertEquals(2,explicadorFromDB.getAtendimentos().size());
-        assertTrue(explicadorFromDB.getAtendimentos().contains(atendimento2));
-        
-        Long explicadorId=explicadorFromDB.getId();
-        System.out.println(explicadorFromDB.getAtendimentos());
+        assertEquals(1,explicador1.getAtendimentos().size());
 
-        this.explicadorRepo.save(explicadorFromDB);
+        // quando procurar pelo explicador existente , devolve explicador 1
+        when(this.explicadorService.procurarExplicador("expl1")).thenReturn(Optional.of(explicador));
 
-        optionalExplicador=this.explicadorRepo.findByNome("expl1");
-        assertTrue(optionalExplicador.isPresent());
-        explicadorFromDB=optionalExplicador.get();
+        Optional<Explicador> explicadorOptional = this.explicadorService.editarExplicador(explicador1);
 
-        assertEquals(explicadorId,optionalExplicador.get().getId());
-        assertEquals(2,optionalExplicador.get().getAtendimentos().size());
-
-        System.out.println(explicadorFromDB.getAtendimentos());
-        assertTrue(explicadorFromDB.getAtendimentos().contains(atendimento2));
-
-
-        explicadorFromDB.removeAtendimento(atendimento2);
-
-        this.explicadorRepo.save(explicadorFromDB);
-        optionalExplicador=this.explicadorRepo.findByNome("expl1");
-        assertTrue(optionalExplicador.isPresent());
-
-        assertEquals(1,optionalExplicador.get().getAtendimentos().size());
-
-
+        assertTrue(explicadorOptional.isPresent());
+        assertEquals(1,explicadorOptional.get().getAtendimentos().size());
     }
 
     @Test
@@ -174,8 +185,5 @@ class ExplicadorServiceTest {
         assertTrue(optionalExplicador1.isPresent());
         assertEquals(3,optionalExplicador.get().getAtendimentos().size());  // tem 3 atendimento
         assertEquals(1,optionalExplicador.get().getCadeiras().size()); // tem 1 cadeira
-
-
-
     }
 }

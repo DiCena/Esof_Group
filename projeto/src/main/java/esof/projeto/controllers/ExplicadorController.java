@@ -36,7 +36,7 @@ public class ExplicadorController {
     @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(@RequestParam Map<String,String> searchParams){
         this.logger.info("GET -> getTodosExplicadores()");
-        return ResponseEntity.ok(this.explicadorService.filterOrders(searchParams));
+        return ResponseEntity.ok(this.explicadorService.filterExplicador(searchParams));
     }
 
 

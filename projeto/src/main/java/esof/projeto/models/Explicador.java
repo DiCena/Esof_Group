@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = false)
@@ -69,9 +70,16 @@ public class Explicador extends BaseModel {
     }
 
     public void removeAllAtendimentos() {
-        for(Atendimento atendimento : this.atendimentos) {
-            removeAtendimento(atendimento);
-        }
+            //removeAtendimento(atendimento) nao funciona com forEach - ConcurrentModificationException ????
+            for(Iterator<Atendimento> iterator = this.atendimentos.iterator(); iterator.hasNext();){
+                Atendimento atendimento = iterator.next();
+                iterator.remove();
+                atendimento.setExplicador(null);
+                if(atendimento.getAluno()!=null) {
+                    atendimento.getAluno().getAtendimentos().remove(atendimento);
+                }
+                atendimento.setAluno(null);
+            }
     }
 
     public void addAtendimentos(Set<Atendimento> atendimentos) {
