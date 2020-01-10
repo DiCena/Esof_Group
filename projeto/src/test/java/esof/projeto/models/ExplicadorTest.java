@@ -57,4 +57,59 @@ class ExplicadorTest {
         assertEquals(2, e1.getAtendimentos().size());
 
     }
+
+    @Test
+    void removeAtendimento() {
+        // dado
+        Explicador ex1 = new Explicador();
+        ex1.setNome("jose");
+        Atendimento atendimento = new Atendimento();
+        atendimento.setDiaAtendimento(LocalDate.now());
+        Atendimento atendimento1 = new Atendimento();
+        atendimento.setDiaAtendimento(LocalDate.of(2020,10,20));
+        ex1.addAtendimento(atendimento);
+        ex1.addAtendimento(atendimento1);
+
+        assertEquals(2,ex1.getAtendimentos().size());
+
+        // --
+        // apagar atendimento
+
+        ex1.removeAtendimento(atendimento);
+
+        assertEquals(1,ex1.getAtendimentos().size());
+
+        // --
+        // apagar tudo
+
+        ex1.removeAtendimento(atendimento1);
+
+
+        assertEquals(0,ex1.getAtendimentos().size());
+
+    }
+
+    @Test
+    void removeAllAtendimentos() {
+        // dado
+        Explicador ex1 = new Explicador();
+        ex1.setNome("jose");
+        Atendimento atendimento = new Atendimento();
+        atendimento.setDiaAtendimento(LocalDate.now());
+        Atendimento atendimento1 = new Atendimento();
+        atendimento.setDiaAtendimento(LocalDate.of(2020,10,20));
+        ex1.addAtendimento(atendimento);
+        ex1.addAtendimento(atendimento1);
+
+        assertEquals(2,ex1.getAtendimentos().size());
+
+        // --
+        // apagar todos os atendimentos
+
+        ex1.removeAllAtendimentos();
+        assertEquals(0,ex1.getAtendimentos().size());
+
+
+
+    }
 }

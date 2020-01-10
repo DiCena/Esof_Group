@@ -53,7 +53,7 @@ public class ExplicadorCache {
      * @param explicador a adicionar na cache
      */
     public void addExplicador(Explicador explicador) {
-        if(consultarCache(explicador.getNome()).isPresent()) this.MRU.removeElement(explicador); // Atualiza a posicao do explicador procurado
+        if(consultarCache(explicador.getNome()).isPresent())this.MRU.removeElement(explicador); // Atualiza a posicao do explicador procurado
         else if(this.MRU.size() == max) this.MRU.remove(max-1);
         this.MRU.add(0,explicador);
     }

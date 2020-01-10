@@ -33,10 +33,10 @@ public class ExplicadorController {
      * os devidos parametros. Se nao tiver searchParams, devolve tudo
      * @return Set<Explicador>
      */
-    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(@RequestParam Map<String,String> searchParams){
         this.logger.info("GET -> getTodosExplicadores()");
-        return ResponseEntity.ok(this.explicadorService.filterOrders(searchParams));
+        return ResponseEntity.ok(this.explicadorService.filterExplicador(searchParams));
     }
 
 
@@ -64,6 +64,22 @@ public class ExplicadorController {
         Optional<Explicador> explicadorOptional = this.explicadorService.criarExplicador(explicador);
         if (explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
         else throw new ExplicadorException();
+    }
+
+
+
+    /**
+     * Muda atributos de um explicador caso o mesmo exista.
+     * Ao contrário de um put , o patch acrescenta valores.
+     * @param explicador Explicador com os atributos novos
+     * @return Explicador (editado)
+     */
+    @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Explicador> editarExplicador(@RequestBody Explicador explicador) {
+        this.logger.info("PATCH -> mudarExplicador( "+ explicador.getNome() +" )");
+        Optional<Explicador> explicadorOptional = this.explicadorService.patchExplicador(explicador);
+        if(explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
+        throw new ExplicadorException();
     }
 
 
