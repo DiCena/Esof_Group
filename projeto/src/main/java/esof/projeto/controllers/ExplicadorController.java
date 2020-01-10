@@ -33,7 +33,7 @@ public class ExplicadorController {
      * os devidos parametros. Se nao tiver searchParams, devolve tudo
      * @return Set<Explicador>
      */
-    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Explicador>> getTodosExplicadores(@RequestParam Map<String,String> searchParams){
         this.logger.info("GET -> getTodosExplicadores()");
         return ResponseEntity.ok(this.explicadorService.filterOrders(searchParams));
@@ -76,7 +76,7 @@ public class ExplicadorController {
      */
     @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Explicador> editarExplicador(@RequestBody Explicador explicador) {
-        this.logger.info("PUT -> mudarExplicador( "+ explicador.getNome() +" )");
+        this.logger.info("PATCH -> mudarExplicador( "+ explicador.getNome() +" )");
         Optional<Explicador> explicadorOptional = this.explicadorService.patchExplicador(explicador);
         if(explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
         throw new ExplicadorException();
