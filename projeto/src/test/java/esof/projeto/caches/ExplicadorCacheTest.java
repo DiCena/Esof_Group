@@ -84,7 +84,9 @@ class ExplicadorCacheTest {
 
         assertEquals(5,cache.tamanho());
 
-        //cache.imprimirCache();
+
+        // fazer funcao de peak , ver se o explicador está mas nao atualiza cache
+        cache.imprimirCache();
         cache.limpar();
     }
 

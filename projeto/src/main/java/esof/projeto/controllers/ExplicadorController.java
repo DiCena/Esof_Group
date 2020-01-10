@@ -67,6 +67,22 @@ public class ExplicadorController {
     }
 
 
+
+    /**
+     * Muda atributos de um explicador caso o mesmo exista.
+     * Ao contrário de um put , o patch acrescenta valores.
+     * @param explicador Explicador com os atributos novos
+     * @return Explicador (editado)
+     */
+    @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Explicador> editarExplicador(@RequestBody Explicador explicador) {
+        this.logger.info("PUT -> mudarExplicador( "+ explicador.getNome() +" )");
+        Optional<Explicador> explicadorOptional = this.explicadorService.patchExplicador(explicador);
+        if(explicadorOptional.isPresent()) return ResponseEntity.ok(explicadorOptional.get());
+        throw new ExplicadorException();
+    }
+
+
     /**
      * Muda atributos de um explicador caso o mesmo exista.
      * @param explicador Explicador com os atributos novos

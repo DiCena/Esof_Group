@@ -121,4 +121,28 @@ public class ExplicadorService {
         System.out.println(explicadorFilterService.filter(this.findAll(),filterObject).size());
         return explicadorFilterService.filter(this.findAll(),filterObject);
     }
+
+
+    /**
+     * Edita explicador , mas em vez de o editar na totalidade ,
+     * apenas acrescenta valores
+     * @param explicador a editar
+     * @return Explicador
+     */
+    public Optional<Explicador> patchExplicador(Explicador explicador) {
+        this.logger.info("A editar explicador com patch");
+        Optional<Explicador> optionalExplicador = procurarExplicador(explicador.getNome());
+        if(optionalExplicador.isEmpty()) return Optional.empty();
+        this.logger.info("Explicador encontrado , a dar patch ...");
+        Explicador explicador1 = optionalExplicador.get();
+        if(explicador.getAtendimentos().size() != 0) explicador1.addAtendimentos(explicador.getAtendimentos());
+        if(explicador.getCadeiras().size() != 0) explicador1.addCadeiras(explicador.getCadeiras());
+        if(explicador.getDisponibilidades().size() != 0) explicador1.addDisponibilidades(explicador.getDisponibilidades());
+        if(explicador.getIdiomas().size() != 0) explicador1.addIdiomas(explicador.getIdiomas());
+        this.logger.info("A devolver explicador editado em patch");
+        Explicador explicadorSalvado = this.explicadorRepo.save(explicador1);
+        cache.addExplicador(explicadorSalvado);
+        System.out.println(explicadorSalvado.getDisponibilidades().toString());
+        return Optional.of(explicadorSalvado);
+    }
 }

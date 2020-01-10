@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 class ExplicadorServiceTest {
@@ -28,6 +29,10 @@ class ExplicadorServiceTest {
     private ExplicadorRepo explicadorRepo;
     @Autowired
     private AtendimentoRepo atendimentoRepo;
+
+
+
+
     @Test
     void findAll() {
     }
@@ -103,5 +108,10 @@ class ExplicadorServiceTest {
         assertEquals(1,optionalExplicador.get().getAtendimentos().size());
 
 
+    }
+
+    @Test
+    void patchExplicador() {
+        
     }
 }
