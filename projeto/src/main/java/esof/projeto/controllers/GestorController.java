@@ -28,6 +28,11 @@ public class GestorController {
         this.gestorService = gestorService;
     }
 
+    /**
+     * cria uma faculdade a partir do json
+     * @param faculdade json com os dados do objeto faculdade
+     * @return success-> optional da faculdade criada, error-> atira uma exception se houver uma faculdade repetida
+     */
     @PostMapping(value = "/faculdade",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculdade> createFaculdade(@RequestBody Faculdade faculdade){
         Optional<Faculdade> faculdadeOptional=this.gestorService.createFaculdade(faculdade);
@@ -38,6 +43,13 @@ public class GestorController {
 
     }
 
+    /**
+     * cria um curso dentro de uma faculdade
+     * @param curso json do objeto custo
+     * @param faculdade nome da faculdade
+     * @return success-> optional do curso criado, error(ou pelo curso já existir dentro da faculdade ou por a faculdade
+     * não existir)-> atira uma exception
+     */
     @PostMapping(value = "/curso/{faculdade}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Curso> createCursoByFaculdade(@RequestBody Curso curso, @PathVariable String faculdade){
         Optional<Curso> cursoOptional=this.gestorService.createCursoByFaculdade(faculdade,curso);
@@ -48,6 +60,14 @@ public class GestorController {
 
     }
 
+    /**
+     * cria uma cadeira dentro de um curso
+     * @param cadeira json da cadeira
+     * @param curso nome do curso
+     * @return success-> option da cadeira criada, error(ou pela cadeira já existir dentro do curso ou pelo curso
+     * não existir)-> atira uma exception
+     *
+     */
     @PostMapping(value = "/cadeira/{curso}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cadeira> createCadeiraByCurso(@RequestBody Cadeira cadeira, @PathVariable String curso){
         Optional<Cadeira> cadeiraOptional=this.gestorService.createCadeiraByCurso(curso,cadeira);
@@ -57,6 +77,7 @@ public class GestorController {
         throw new GestorController.ElementAlreadyExistsException((cadeira.getNome()));
     }
 
+    //exception para quando se tenta inserir um elemento repetido
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Element already exists")
     private static class ElementAlreadyExistsException extends RuntimeException {
 

@@ -27,6 +27,10 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+    /**
+     * procurar todos os alunos
+     * @return todos os alunos da bd
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<Aluno>> getAllAlunos(){
         this.logger.info("Received a get request");
@@ -34,6 +38,12 @@ public class AlunoController {
         return ResponseEntity.ok(this.alunoService.findAll());
     }
 
+    /**
+     * procura um aluno pelo id
+     * @param id id de pesquisa
+     * @return success-> aluno com o id perquisado
+     * @throws NoAlunoException - quando o aluno pelo id não existe
+     */
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public ResponseEntity<Aluno> getAlunobyId(@PathVariable("id") Long id) throws NoAlunoException {
         this.logger.info("Received a get request");
@@ -45,6 +55,11 @@ public class AlunoController {
         throw new NoAlunoException(id);
     }
 
+    /**
+     * cria um aluno na base de dados a partir do json
+     * @param aluno json com a informação para criar o aluno
+     * @return success-> aluno criado, error-> atira exception se já existir um aluno repetido
+     */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Aluno> createAluno(@RequestBody Aluno aluno){
         Optional<Aluno> clientOptional=this.alunoService.createAluno(aluno);
@@ -55,6 +70,9 @@ public class AlunoController {
 
     }
 
+    /**
+     * Exception para ser soltada quando o aluno que se procura pelo id não existe
+     */
     @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="No such aluno")
     private static class NoAlunoException extends RuntimeException {
 
@@ -63,6 +81,9 @@ public class AlunoController {
         }
     }
 
+    /**
+     * Exception para ser soltada quando o aluno que se tenta criar já existe
+     */
     @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Aluno already exists")
     private static class AlunoAlreadyExistsException extends RuntimeException {
 

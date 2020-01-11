@@ -20,6 +20,10 @@ public class AlunoService {
         this.alunoRepo=alunoRepo;
     }
 
+    /**
+     * vai ao repo buscar os alunos e armazena-os num hashSet
+     * @return Todos os alunos da base de dados
+     */
     public Set<Aluno> findAll(){
         Set<Aluno> alunos = new HashSet<>();
         for (Aluno aluno: this.alunoRepo.findAll())
@@ -27,10 +31,21 @@ public class AlunoService {
         return alunos;
     }
 
+    /**
+     *
+     * @param id id do aluno que se pretende encontrar
+     * @return aluno com o id procurado
+     */
     public Optional<Aluno> findById(Long id) {
         return this.alunoRepo.findById(id);
     }
 
+    /**
+     * se já existir um aluno com o nome retorna empty, caso contrário adiciona-o
+     * á base de dados
+     * @param aluno aluno que se pretende criar
+     * @return success -> optional do aluno else-> optional.empty()
+     */
     public Optional<Aluno> createAluno(Aluno aluno) {
         Optional<Aluno> optionalClient=this.alunoRepo.findByNome(aluno.getNome());
         if(optionalClient.isPresent()){
