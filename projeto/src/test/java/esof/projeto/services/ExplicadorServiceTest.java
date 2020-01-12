@@ -3,23 +3,16 @@ package esof.projeto.services;
 import esof.projeto.models.Atendimento;
 import esof.projeto.models.Cadeira;
 import esof.projeto.models.Explicador;
-import esof.projeto.repositories.AtendimentoRepo;
 import esof.projeto.repositories.ExplicadorRepo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -31,8 +24,6 @@ class ExplicadorServiceTest {
 
     @Mock
     private ExplicadorRepo explicadorRepo;
-    @Mock
-    private AtendimentoRepo atendimentoRepo;
 
     @InjectMocks
     private ExplicadorService explicadorService;
