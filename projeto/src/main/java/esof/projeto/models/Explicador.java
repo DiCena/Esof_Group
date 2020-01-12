@@ -10,10 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -156,6 +153,20 @@ public class Explicador extends BaseModel {
         return true;
     }
 
+
+    /**
+     * Procura por atendimento por time e date
+     * @param time tempo do atendimento
+     * @param date data do atendimento
+     * @return Atendimento
+     */
+    public Optional<Atendimento> procurarAtendimento(LocalTime time , LocalDate date){
+        for(Atendimento atendimento : this.atendimentos){
+            if(atendimento.getHoraAtendimento().equals(time) && atendimento.getDiaAtendimento().equals(date))
+                return Optional.of(atendimento);
+        }
+        return Optional.empty();
+    }
 
 
 

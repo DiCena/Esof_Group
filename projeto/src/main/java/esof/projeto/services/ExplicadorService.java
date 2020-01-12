@@ -2,7 +2,10 @@ package esof.projeto.services;
 
 
 import esof.projeto.caches.ExplicadorCache;
+import esof.projeto.models.Aluno;
+import esof.projeto.models.Atendimento;
 import esof.projeto.models.Explicador;
+import esof.projeto.models.body.AtendimentoBody;
 import esof.projeto.repositories.ExplicadorRepo;
 import esof.projeto.services.filters.explicadores.ExplicadorFilterService;
 import esof.projeto.services.filters.explicadores.FilterObject;
@@ -22,6 +25,8 @@ public class ExplicadorService {
     private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     private ExplicadorRepo explicadorRepo;
+
+    private AlunoService alunoService;
 
     private ExplicadorCache cache = ExplicadorCache.getInstance();
 
@@ -161,4 +166,5 @@ public class ExplicadorService {
         System.out.println(explicadorSalvado.getDisponibilidades().toString());
         return Optional.of(explicadorSalvado);
     }
+
 }

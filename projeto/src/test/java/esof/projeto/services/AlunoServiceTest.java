@@ -1,13 +1,20 @@
 package esof.projeto.services;
 
 import esof.projeto.models.Aluno;
+import esof.projeto.models.Atendimento;
+import esof.projeto.models.Explicador;
+import esof.projeto.models.body.AtendimentoBody;
 import esof.projeto.repositories.AlunoRepo;
+import esof.projeto.repositories.AtendimentoRepo;
+import esof.projeto.repositories.ExplicadorRepo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -19,6 +26,15 @@ class AlunoServiceTest {
 
     @Mock
     private AlunoRepo alunoRepo;
+
+    @Mock
+    private ExplicadorRepo explicadorRepo;
+
+    @Mock
+    private AtendimentoRepo atendimentoRepo;
+
+    @Mock
+    private ExplicadorService explicadorService;
 
     @InjectMocks
     private AlunoService alunoService;
@@ -63,6 +79,46 @@ class AlunoServiceTest {
 
         assertTrue(optionalAluno.isPresent());
         assertEquals(aluno, optionalAluno.get());
+
+    }
+
+    @Test
+    void marcarAtendimento() {
+        Explicador explicador = new Explicador();
+        explicador.setNome("jose");
+
+        Aluno aluno = new Aluno();
+        aluno.setNome("luisinho");
+
+
+        assertEquals(0,explicador.getAtendimentos().size());
+
+        when(this.alunoRepo.findByNome("luisinho")).thenReturn(Optional.of(aluno));
+        when(this.explicadorRepo.findByNome("jose")).thenReturn(Optional.of(explicador));
+        when(this.explicadorService.procurarExplicador("jose")).thenReturn(Optional.of(explicador));
+
+
+        AtendimentoBody atendimentoBody = new AtendimentoBody();
+        atendimentoBody.setAluno("luisinho");
+        atendimentoBody.setExplicador("jose");
+        atendimentoBody.setDiaAtendimento(LocalDate.of(10,10,10));
+        atendimentoBody.setHoraAtendimento(LocalTime.MIDNIGHT);
+
+
+
+        // --
+        //marcar atendimento
+
+        Optional<Atendimento> optionalAtendimento = this.alunoService.marcarAtendimento(atendimentoBody);
+
+        assertTrue(optionalAtendimento.isPresent());
+        assertEquals("luisinho",optionalAtendimento.get().getAluno().getNome());
+        assertEquals("jose",optionalAtendimento.get().getExplicador().getNome());
+        assertEquals(LocalTime.MIDNIGHT,optionalAtendimento.get().getHoraAtendimento());
+        assertEquals(LocalDate.of(10,10,10),optionalAtendimento.get().getDiaAtendimento());
+
+
+
 
     }
 }

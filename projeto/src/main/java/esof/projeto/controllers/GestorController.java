@@ -35,6 +35,7 @@ public class GestorController {
      */
     @PostMapping(value = "/faculdade",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculdade> createFaculdade(@RequestBody Faculdade faculdade){
+        this.logger.info("Post -> createFaculdade");
         Optional<Faculdade> faculdadeOptional=this.gestorService.createFaculdade(faculdade);
         if(faculdadeOptional.isPresent()){
             return ResponseEntity.ok(faculdadeOptional.get());
@@ -52,6 +53,7 @@ public class GestorController {
      */
     @PostMapping(value = "/curso/{faculdade}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Curso> createCursoByFaculdade(@RequestBody Curso curso, @PathVariable String faculdade){
+        this.logger.info("Post -> createCursoByFaculdade");
         Optional<Curso> cursoOptional=this.gestorService.createCursoByFaculdade(faculdade,curso);
         if(cursoOptional.isPresent()){
             return ResponseEntity.ok(cursoOptional.get());
@@ -70,6 +72,7 @@ public class GestorController {
      */
     @PostMapping(value = "/cadeira/{curso}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cadeira> createCadeiraByCurso(@RequestBody Cadeira cadeira, @PathVariable String curso){
+        this.logger.info("Post -> createCadeiraByCurso");
         Optional<Cadeira> cadeiraOptional=this.gestorService.createCadeiraByCurso(curso,cadeira);
         if(cadeiraOptional.isPresent()){
             return ResponseEntity.ok(cadeiraOptional.get());

@@ -1,6 +1,9 @@
 package esof.projeto.controllers;
 
 import esof.projeto.models.Aluno;
+import esof.projeto.models.Atendimento;
+import esof.projeto.models.Explicador;
+import esof.projeto.models.body.AtendimentoBody;
 import esof.projeto.services.AlunoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,24 @@ public class AlunoController {
     public AlunoController(AlunoService alunoService) {
         this.alunoService = alunoService;
     }
+
+
+
+
+    /**
+     * Procura um aluno pelo nome passado.
+     * @param nome Nome a procurar pelo aluno
+     * @return Aluno
+     */
+    @RequestMapping(value="/{nome}",method = RequestMethod.GET , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Aluno> getExplicadorNome(@PathVariable("nome") String nome) {
+        this.logger.info("GET -> getExplicadorNome( " + nome + " )");
+        Optional<Aluno> alunoOptional = this.alunoService.procurarAluno(nome);
+        if(alunoOptional.isEmpty()) throw new AlunoAlreadyExistsException(nome);
+        else return ResponseEntity.ok(alunoOptional.get());
+    }
+
+
 
     /**
      * procurar todos os alunos
@@ -81,6 +102,17 @@ public class AlunoController {
         }
     }
 
+
+
+
+    @RequestMapping( value = "/atendimento",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Atendimento> marcarAtendimento(@RequestBody AtendimentoBody atendimentoBody){
+        this.logger.info("POST -> marcarAtendimento");
+        Optional<Atendimento> atendimentoOptional = this.alunoService.marcarAtendimento(atendimentoBody);
+        if(atendimentoOptional.isPresent()) return ResponseEntity.ok(atendimentoOptional.get());
+        throw new AtendimentoException();
+    }
+
     /**
      * Exception para ser soltada quando o aluno que se tenta criar já existe
      */
@@ -89,6 +121,17 @@ public class AlunoController {
 
         public AlunoAlreadyExistsException(String name) {
             super("A aluno with name: "+name+" already exists");
+        }
+    }
+
+
+    /**
+     *Resposta para quando não foi possível marcar um atendimento
+     */
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason = "Pedido sem sucesso.")
+    private static class AtendimentoException extends RuntimeException {
+        public AtendimentoException() {
+            super("O pedido terminou sem sucesso.");
         }
     }
 

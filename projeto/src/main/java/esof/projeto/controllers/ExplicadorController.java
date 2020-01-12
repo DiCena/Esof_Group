@@ -1,6 +1,8 @@
 package esof.projeto.controllers;
 
+import esof.projeto.models.Atendimento;
 import esof.projeto.models.Explicador;
+import esof.projeto.models.body.AtendimentoBody;
 import esof.projeto.services.ExplicadorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +98,10 @@ public class ExplicadorController {
         throw new ExplicadorException();
     }
 
+
+
+
+
     /**
      * Resposta para todos os pedidos que não encontrem um dado explicador
      * ou definam um erro de procura no repositorio explicador.
@@ -106,4 +112,11 @@ public class ExplicadorController {
             super("O pedido terminou sem sucesso.");
         }
     }
+
+
+
+
+
+
+
 }

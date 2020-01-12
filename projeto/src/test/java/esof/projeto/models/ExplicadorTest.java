@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -111,5 +112,22 @@ class ExplicadorTest {
 
 
 
+    }
+
+    @Test
+    void procurarAtendimento() {
+        // dado
+        Explicador explicador = new Explicador();
+        explicador.setNome("jose");
+        Atendimento atendimento = new Atendimento();
+        atendimento.setDiaAtendimento(LocalDate.of(10,10,10));
+        atendimento.setHoraAtendimento(LocalTime.MIDNIGHT);
+        explicador.addAtendimento(atendimento);
+
+        // --
+        // procurar atendimento
+        Optional<Atendimento> optionalAtendimento = explicador.procurarAtendimento(LocalTime.MIDNIGHT,LocalDate.of(10,10,10));
+        assertTrue(optionalAtendimento.isPresent());
+        assertEquals(atendimento,optionalAtendimento.get());
     }
 }

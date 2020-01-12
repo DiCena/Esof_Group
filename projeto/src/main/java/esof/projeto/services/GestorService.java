@@ -6,6 +6,8 @@ import esof.projeto.models.Faculdade;
 import esof.projeto.repositories.CadeiraRepo;
 import esof.projeto.repositories.CursoRepo;
 import esof.projeto.repositories.FaculdadeRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ import java.util.Optional;
 
 @Service
 public class GestorService {
-
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
     private FaculdadeRepo faculdadeRepo;
     private CursoRepo cursoRepo;
     private CadeiraRepo cadeiraRepo;
@@ -31,11 +33,13 @@ public class GestorService {
      * @return success-> optional da faculdade inserida, erro-> optional vazio
      */
     public Optional<Faculdade> createFaculdade(Faculdade faculdade) {
+        this.logger.info("A criar faculdade " + faculdade.getNome());
         Optional<Faculdade> optionalClient = this.faculdadeRepo.findByNome(faculdade.getNome());
         if (optionalClient.isPresent()) {
             return Optional.empty();
         }
         Faculdade createdFaculdade = this.faculdadeRepo.save(faculdade);
+        this.logger.info("A devolver " + createdFaculdade.getNome());
         return Optional.of(createdFaculdade);
     }
 
@@ -48,14 +52,17 @@ public class GestorService {
      * nenhuma faculdade com o nome
      */
     public Optional<Curso> createCursoByFaculdade(String faculdade, Curso curso) {
+        this.logger.info("A criar curso " + curso.getNome() + " na faculdade " + faculdade);
         Optional<Faculdade> optionalFaculdade = this.faculdadeRepo.findByNome(faculdade);
         if (optionalFaculdade.isPresent()) {
             if (optionalFaculdade.get().getCursos().contains(curso))
                 return Optional.empty();
             optionalFaculdade.get().addCurso(curso);
             this.cursoRepo.save(curso);
+            this.logger.info("A devolver " + curso.getNome());
             return Optional.of(curso);
         }
+        this.logger.info("A devolver vazio");
         return Optional.empty();
     }
     /**
@@ -67,14 +74,17 @@ public class GestorService {
      * nenhum curso com pelo nome
      */
     public Optional<Cadeira> createCadeiraByCurso(String curso, Cadeira cadeira) {
+        this.logger.info("A criar cadeira dentro do curso " + curso);
         Optional<Curso> optionalCurso = this.cursoRepo.findByNome(curso);
         if (optionalCurso.isPresent()) {
             if (optionalCurso.get().getCadeiras().contains(cadeira))
                 return Optional.empty(); //já existe esta cadeira no curso
             optionalCurso.get().addCadeira(cadeira);
             this.cadeiraRepo.save(cadeira);
+            this.logger.info("A devolver " + cadeira.getNome());
             return Optional.of(cadeira);
         }
+        this.logger.info("A devolver vazio");
         return Optional.empty(); //o curso não existe
     }
 }
